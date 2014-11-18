@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="./dist/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="./dist/css/bootstrap-theme.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<style>
+  .top{padding-top:70px;}
+  .shadow{
+    box-shadow: 0px 8px 17px 0  rgba(0, 0, 0, 0.2);
+    border-radius: 2px;
+    background-color:white;
+  }
+  .w{width:200%;}
+  body{background-color:rgb(200,200,200)}
+</style>
+<script src="./js/data.js"></script>
+<script>
+  $(function(){
+
+    for(var i in data[0]){
+      $("<th>"+data[0][i]+"</th>").appendTo($(".table thead tr"));
+    }
+    var len = data.length;
+    for(var i=1;i<len;i++){
+      var tr = $("<tr></tr>").appendTo($(".table tbody"));
+      for (var j in data[i]){
+        tr.append($("<td>"+data[i][j]+"</td>"));
+      }
+    }
+
+
+  });
+</script>
+</head>
+<body>
+<!-- Begin of nav -->
+<nav class="navbar navbar-default navbar-fixed-top shadow" role="navigation">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Project name</a>
+    </div>
+  </div>
+</nav>
+<!-- End of nav -->
+<!-- Begin of Content -->
+<div class="container-fluid top">
+  <div class="row">
+    <div class="w main">
+      <h2 clss="sub-header ">汐止</h2>
+      <div class="table-responsive shadow">
+        <table class="table table-hover table-condensed">
+          <thead>
+            <tr>
+            </tr>
+          </thead>
+          <tbody>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End of Content -->
+
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="./dist/js/bootstrap.min.js"></script>
+
+
+</body>
+</html>

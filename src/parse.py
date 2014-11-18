@@ -77,7 +77,7 @@ class FIND_CORP:
       if u'公司所在地' in j:
         j[u'公司所在地'] = j[u'公司所在地'].replace("１","1").replace("２","2").replace("３","3").replace("４","4").replace("５","5").replace("６","6").replace("７","7").replace("８","8").replace("９","9").replace("０","0")
 
-        if j[u'公司所在地'].find('內湖區')>=0:
+        if j[u'公司所在地'].find('汐止區')>=0:
           self.data.append(j)
 
  #     if u'所營事業資料' in j and len(j[u'所營事業資料'])>0:
@@ -87,9 +87,9 @@ class FIND_CORP:
  #         for kk in k:
  #           print kk
  #         print type(k)
-#      i = i +1
-#      if i>=4:
-#        break
+ #     i = i +1
+ #     if i>=100:
+ #      break
 
 
 
@@ -127,6 +127,65 @@ class FIND_CORP:
 
   def appendTD(self,a):
     return "<td>"+a+"</td>"
+  def appendQ(self,a):
+    return "\""+a+"\""
+
+  def write_js(self):
+    f = open(os.path.dirname(__file__)+'/../js/data.js',"w+")
+    f.write("data = [ [\"#\","+",".join(map(self.appendQ,self.wanted_list))+"]")
+    #f.write("".join(map(self.appendTD,self.wanted_list))+"\n")
+    num = 0
+    for d in self.data:
+      num = num+1
+      f.write(",[%d"%num)
+      for col in map(unicode,self.wanted_list):
+        f.write(",")
+        rr = ""
+        if col in d and d[col] is not None:
+          if type(d[col]) is list:
+
+            a = '<ul>'
+            for e in d[col]:
+              for ff in e:
+                if type(e[ff]) is dict:
+                  a = a+'<li>%s-%s-%s-%s</li>'%(ff,e[ff][u'year'],e[ff][u'month'],e[ff][u'day'])
+                else:
+                  if e[ff] is not None:
+                    if ff==u"出資額":
+                      e[ff] = e[ff].replace(",","")
+                    if u'所代表法人' not in e or e[u'所代表法人'] is None:
+                      pass
+                    else:
+                      a = a+'<li>%s-%s</li>'%(ff,e[ff])
+            a = a+'</ul>'
+            rr=a
+          elif type(d[col]) is dict:
+
+            a='<ul>'
+            for e in d[col]:
+              if d[col][e] is not None:
+                ed[col][e]= d[col][e].replace(",","")
+              a=a+'<li>2'+e+"-"+d[col][e]+'</li>'
+            a=a+'</ul>'
+            rr=a
+
+          else:
+            rr = d[col]
+        if rr != "":
+          f.write("\""+rr+"\"")
+        else:
+          f.write("null")
+
+
+      f.write("]")
+
+    f.write("];\n")
+    f.close()
+
+
+
+
+
 
   def write_html(self):
     f = open(os.path.dirname(__file__)+'/../data/test.html',"w+")
@@ -185,5 +244,6 @@ class FIND_CORP:
 if __name__ =="__main__":
   d = FIND_CORP()
   d.write_html()
+  d.write_js()
 
 
